@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат с сакурой</title>
+    <style>
+        body {
+            background: transparent;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        /* Контейнер для сообщений */
+        #chat-box {
+            width: 400px;
+            height: 500px;
+            padding: 10px;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background: rgba(255, 182, 193, 0.5);
+            backdrop-filter: blur(10px);
+            border: 3px solid #ff69b4;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.8);
+            position: relative;
+        }
+
+        /* Сообщения */
+        .message {
+            max-width: 80%;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 20px;
+            background: #ffb6c1;
+            color: white;
+            font-size: 16px;
+            animation: fadeIn 0.5s ease-in-out;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .username {
+            font-weight: bold;
+            color: #ff1493;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .message:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 15px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #ffb6c1 transparent transparent transparent;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Падающие лепестки сакуры */
+        .sakura {
+            position: fixed;
+            top: -10px;
+            width: 20px;
+            height: 20px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/4/4b/Sakura_falling.png') no-repeat center/cover;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-box"></div>
+
+    <script>
+        const chatBox = document.getElementById("chat-box");
+
+        function addMessage(username, text) {
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message");
+
+            const usernameElement = document.createElement("div");
+            usernameElement.classList.add("username");
+            usernameElement.textContent = username;
+
+            const textElement = document.createElement("div");
+            textElement.textContent = text;
+
+            messageElement.appendChild(usernameElement);
+            messageElement.appendChild(textElement);
+            chatBox.appendChild(messageElement);
+
+            if (chatBox.children.length > 10) {
+                chatBox.removeChild(chatBox.children[0]);
+            }
+        }
+
+        // Добавляем тестовые сообщения (замени на Twitch API)
+        setTimeout(() => addMessage("🌸 СакураЧан", "Приветик! 💖"), 1000);
+        setTimeout(() => addMessage("🍡 НэкоСладость", "Как тут красиво! 🎀"), 2000);
+        setTimeout(() => addMessage("🐱 КавайКотик", "Люблю розовый! 🌸"), 3000);
+
+        // Функция для генерации лепестков сакуры
+        function createSakura() {
+            const sakura = document.createElement("div");
+            sakura.classList.add("sakura");
+            sakura.style.left = Math.random() * 100 + "vw";
+            sakura.style.animationDuration = Math.random() * 3 + 2 + "s"; 
+            document.body.appendChild(sakura);
+
+            setTimeout(() => {
+                sakura.remove();
+            }, 5000);
+        }
+
+        // Запуск анимации лепестков каждые 500 мс
+setInterval(createSakura, 500);
+    </script>
+</body>
+</html>
